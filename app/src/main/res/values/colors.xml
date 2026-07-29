@@ -6,4 +6,10 @@
     <color name="green">#6A866E</color>
     <color name="navi_blue">#BBCCEC</color>
 
+
+
+    <color name="status_ready">@color/navi_blue</color>
+    <color name="status_in_progress">@color/white</color>
+    <color name="status_on_hold">@color/orange</color>
+    <color name="status_finished">@color/green</color>
 </resources>

@@ -1,8 +1,34 @@
-This XML file does not appear to have any style information associated with it. The document tree is shown below.
 <resources>
     <style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/rounded_shape</item>
     </style>
-    <style name="statusBtn" parent="Widget.MaterialComponents.Button"></style>
+    <style name="statusBtn.Ready">
+        <item name="android:background">@drawable/rounded_shape</item>
+        <item name="backgroundTint">@color/status_ready</item>
+    </style>
 
+    <style name="statusBtn.InProgress">
+        <item name="android:background">@drawable/rounded_shape</item>
+        <item name="backgroundTint">@color/status_in_progress</item>
+    </style>
+
+    <style name="statusBtn.OnHold">
+        <item name="android:background">@drawable/rounded_shape</item>
+        <item name="backgroundTint">@color/status_on_hold</item>
+    </style>
+
+    <style name="statusBtn.Finished">
+        <item name="android:background">@drawable/rounded_shape</item>
+        <item name="backgroundTint">@color/status_finished</item>
+    </style>
+    <style name="mainText" >
+        <item name="android:textSize">40dp</item>
+        <item name="android:fontFamily">"@font/oswald"</item>
+        <item name="android:textColor">"@color/black"</item>
+    </style>
+    <style name="bottomText" >
+        <item name="android:textSize">20dp</item>
+        <item name="android:fontFamily">"@font/robotoslab"</item>
+        <item name="android:textColor">"@color/black"</item>
+    </style>
 </resources>
