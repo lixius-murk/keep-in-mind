@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BoardActivity"
+            android:name=".activities.BoardActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
