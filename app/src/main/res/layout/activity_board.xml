@@ -38,6 +38,7 @@
                 android:textAppearance="@style/mainText" />
 
             <TextView
+                android:id='@+id/ready_amnt_text'
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
@@ -66,6 +67,8 @@
                 android:textAppearance="@style/mainText" />
 
             <TextView
+                android:id='@+id/process_amnt_text'
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
@@ -94,6 +97,8 @@
                 android:textAppearance="@style/mainText" />
 
             <TextView
+                android:id='@+id/hold_amnt_text'
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
@@ -121,6 +126,8 @@
                 android:textAppearance="@style/mainText" />
 
             <TextView
+                android:id='@+id/finished_amnt_text'
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
@@ -130,14 +137,34 @@
 
         </FrameLayout>
 
+
     </LinearLayout>
 
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="@id/board"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@null"
+        android:src="@drawable/add_ic"
+        >
+    </ImageButton>
     <LinearLayout
-        android:id="@+id/folders"
+        android:id="@+id/folders_layout"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintTop_toBottomOf="@id/board"
+
         android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/folders_sv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+        </ScrollView>
     </LinearLayout>
 
 

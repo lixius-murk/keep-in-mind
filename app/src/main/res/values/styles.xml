@@ -2,6 +2,8 @@
     <style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/rounded_shape</item>
     </style>
+    <style name="statusBtn" parent="Widget.MaterialComponents.Button"></style>
+
     <style name="statusBtn.Ready">
         <item name="android:background">@drawable/rounded_shape</item>
         <item name="backgroundTint">@color/status_ready</item>
