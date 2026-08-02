@@ -9,6 +9,8 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 import java.util.Objects;
 
+import kotlin.TypeCastException;
+
 //Immutable: to change a value, build a new instance (see withId/withFolderId).
 
 @Entity(
@@ -19,27 +21,28 @@ import java.util.Objects;
                 childColumns = "folder_id",
                 onDelete = ForeignKey.CASCADE
         )
+
 )
 public class Project implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private final Long id;
+    private  Long id;
 
     @ColumnInfo(name = "start_date")
-    private final String start_date;
+    private  String start_date;
 
     @ColumnInfo(name = "end_date")
-    private final String end_date;
+    private  String end_date;
 
     @ColumnInfo(name = "description")
-    private final String description;
+    private  String description;
 
     @ColumnInfo(name = "state")
-    private final String state;
+    private  String state;
 
     @ColumnInfo(name = "folder_id", index = true)
-    private final Long folder_id;
+    private  Long folder_id;
 
     public Project() {
         this(null, null, null, null, null, null);
@@ -117,5 +120,29 @@ public class Project implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, start_date, end_date, description, state, folder_id);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setStart_date(String start_date) {
+        this.start_date = start_date;
+    }
+
+    public void setEnd_date(String end_date) {
+        this.end_date = end_date;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setFolder_id(Long folder_id) {
+        this.folder_id = folder_id;
     }
 }

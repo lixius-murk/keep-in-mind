@@ -10,17 +10,22 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
-// multiple ProjectExtra rows can point at the same
-// project_id, so a project can have zero, one, or many extras of any type
-
 @Entity(
         tableName = "project_extra",
-        foreignKeys = @ForeignKey(
-                entity = Project.class,
-                parentColumns = "id",
-                childColumns = "project_id",
-                onDelete = ForeignKey.CASCADE
-        )
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Project.class,
+                        parentColumns = "id",
+                        childColumns = "project_id",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Type.class,
+                        parentColumns = "id",
+                        childColumns = "type_id",
+                        onDelete = ForeignKey.CASCADE
+                )
+        }
 )
 public class ProjectExtra implements Serializable {
 
@@ -31,8 +36,8 @@ public class ProjectExtra implements Serializable {
     @ColumnInfo(name = "project_id", index = true)
     private final Long project_id;
 
-    @ColumnInfo(name = "type")
-    private final String type;
+    @ColumnInfo(name = "type_id", index = true)
+    private final Long type_id;
 
     @ColumnInfo(name = "content")
     private final String content;
@@ -41,13 +46,14 @@ public class ProjectExtra implements Serializable {
         this(null, null, null, null);
     }
 
-    public ProjectExtra(Long id, Long project_id, String type, String content) {
+
+    public ProjectExtra(Long id, Long project_id, Long type_id, String content) {
         if (project_id == null) {
             throw new IllegalArgumentException("project_id must not be null");
         }
         this.id = id;
         this.project_id = project_id;
-        this.type = type;
+        this.type_id = type_id;
         this.content = content;
     }
 
@@ -59,8 +65,8 @@ public class ProjectExtra implements Serializable {
         return project_id;
     }
 
-    public String getType() {
-        return type;
+    public Long getTypeId() {
+        return type_id;
     }
 
     public String getContent() {
@@ -69,7 +75,7 @@ public class ProjectExtra implements Serializable {
 
     @Ignore
     public ProjectExtra withId(Long newId) {
-        return new ProjectExtra(newId, project_id, type, content);
+        return new ProjectExtra(newId, project_id, type_id, content);
     }
 
     @Override
@@ -77,8 +83,8 @@ public class ProjectExtra implements Serializable {
         return "ProjectExtra{" +
                 "id=" + id +
                 ", project_id=" + project_id +
-                ", type=" + type +
-                ", content=" + content +
+                ", type_id=" + type_id +
+                ", content='" + content + '\'' +
                 '}';
     }
 
@@ -89,12 +95,12 @@ public class ProjectExtra implements Serializable {
         ProjectExtra that = (ProjectExtra) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(project_id, that.project_id) &&
-                Objects.equals(type, that.type) &&
+                Objects.equals(type_id, that.type_id) &&
                 Objects.equals(content, that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, project_id, type, content);
+        return Objects.hash(id, project_id, type_id, content);
     }
 }

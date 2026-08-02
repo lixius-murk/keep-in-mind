@@ -1,6 +1,7 @@
 package com.example.keep_in_mind.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class BoardActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +35,17 @@ public class BoardActivity extends AppCompatActivity {
         finished_amnt_text=(TextView)findViewById(R.id.finished_amnt_text);
         folders_layout= (LinearLayout) findViewById(R.id.folders_layout);
         folders_sv= (ScrollView) findViewById(R.id.folders_sv);
+
+        if (!loadProjects()){
+            folders_sv.addView(new TextView(this).setText("no projects yet"));
+
+        }
     }
 
+    private boolean loadProjects() {
+
+        return true;
+    }
 
 
 }
