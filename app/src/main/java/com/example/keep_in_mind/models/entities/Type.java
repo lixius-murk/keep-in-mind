@@ -19,10 +19,10 @@ public class Type implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private final Long id;
+    private  Long id;
 
     @ColumnInfo(name = "name")
-    private final String name;
+    private  String name;
 
     public Type() {
         this(null, null);
@@ -65,5 +65,13 @@ public class Type implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

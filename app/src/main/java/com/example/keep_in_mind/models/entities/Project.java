@@ -28,6 +28,8 @@ public class Project implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private  Long id;
+    @ColumnInfo(name = "name")
+    private  String name;
 
     @ColumnInfo(name = "start_date")
     private  String start_date;
@@ -144,5 +146,25 @@ public class Project implements Serializable {
 
     public void setFolder_id(Long folder_id) {
         this.folder_id = folder_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getStart_date() {
+        return start_date;
+    }
+
+    public String getEnd_date() {
+        return end_date;
+    }
+
+    public Long getFolder_id() {
+        return folder_id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -14,10 +14,10 @@ public class Folder implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private final Long id;
+    private  Long id;
 
     @ColumnInfo(name = "name")
-    private final String name;
+    private  String name;
 
     public Folder() {
         this(null, null);
@@ -60,5 +60,13 @@ public class Folder implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

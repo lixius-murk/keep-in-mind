@@ -31,16 +31,16 @@ public class ProjectExtra implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private final Long id;
+    private  Long id;
 
     @ColumnInfo(name = "project_id", index = true)
-    private final Long project_id;
+    private  Long project_id;
 
     @ColumnInfo(name = "type_id", index = true)
-    private final Long type_id;
+    private  Long type_id;
 
     @ColumnInfo(name = "content")
-    private final String content;
+    private  String content;
 
     public ProjectExtra() {
         this(null, null, null, null);
@@ -102,5 +102,29 @@ public class ProjectExtra implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, project_id, type_id, content);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getProject_id() {
+        return project_id;
+    }
+
+    public void setProject_id(Long project_id) {
+        this.project_id = project_id;
+    }
+
+    public Long getType_id() {
+        return type_id;
+    }
+
+    public void setType_id(Long type_id) {
+        this.type_id = type_id;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

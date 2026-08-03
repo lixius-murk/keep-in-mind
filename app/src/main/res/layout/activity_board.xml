@@ -144,6 +144,7 @@
     <ImageButton
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:id="@+id/add_folder_btn"
         app:layout_constraintBottom_toBottomOf="@id/board"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@null"
