@@ -16,7 +16,6 @@ import com.example.keep_in_mind.models.entities.ProjectExtra;
 import com.example.keep_in_mind.models.entities.Type;
 
 
-// Table schemas are generated automatically from the @Entity classes below,
 
 @Database(
         entities = {Project.class, Folder.class, ProjectExtra.class, Type.class},
@@ -26,6 +25,7 @@ import com.example.keep_in_mind.models.entities.Type;
 public abstract class MindDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "mind.db";
+    //having 1 db so for multiple thread usage volatile
     private static volatile MindDatabase instance;
 
     public abstract ProjectDao projectDao();

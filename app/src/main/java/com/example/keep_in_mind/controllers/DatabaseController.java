@@ -1,76 +1,172 @@
 package com.example.keep_in_mind.controllers;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
+
+
+import   com.example.keep_in_mind.models.entities.MindDatabase;
+import com.example.keep_in_mind.models.entities.Folder;
 import com.example.keep_in_mind.models.entities.Project;
 import com.example.keep_in_mind.models.entities.ProjectExtra;
+import com.example.keep_in_mind.models.entities.ProjectWithExtras;
+import com.example.keep_in_mind.models.entities.Type;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class DatabaseController extends SQLiteOpenHelper {
 
+// singleton for db controller, on background threat
+// USAGE:   DatabaseController.getInstance(this).getAllProjects(projects ->
+//       runOnUiThread(() -> updateUi(projects)));
 
-    private static final String DB_NAME = "mind.db";
-    private static final int DB_VERSION = 1;
+public class DatabaseController {
 
-    public DatabaseController(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+    private static volatile DatabaseController instance;
+
+    private final MindDatabase db;
+    private final ExecutorService executor;
+
+    private DatabaseController(Context context) {
+        this.db = MindDatabase.getInstance(context.getApplicationContext());
+        this.executor = Executors.newSingleThreadExecutor();
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE stops(id integer PRIMARY KEY AUTOINCREMENT, name TEXT, lat DOUBLE, longt DOUBLE);");
-        db.execSQL("CREATE TABLE plans(id integer PRIMARY KEY AUTOINCREMENT, name TEXT, data TEXT, state TEXT);");
-        db.execSQL("CREATE TABLE ps(id integer PRIMARY KEY AUTOINCREMENT, id_plan integer, id_stop integer,  FOREIGN KEY(id_stop) REFERENCES stops(id), FOREIGN KEY(id_plan) REFERENCES plans(id));");
-    }
-
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS stops;");
-        db.execSQL("DROP TABLE IF EXISTS plans;");
-        db.execSQL("DROP TABLE IF EXISTS ps;");
-        onCreate(db);
-    }
-
-    public ArrayList<Project> getAllProjects() {
-        SQLiteDatabase db = getWritableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM project;", null);
-        ArrayList<Project> list = new ArrayList<>();
-
-        while (cur.moveToNext()) {
-            Project pj = new Project();
-            pj.setId(cur.getLong(0));
-            pj.setStart_date(cur.getString(1));
-            pj.setEnd_date(cur.getString(2));
-            pj.setDescription(cur.getString(3));
-            pj.setState(cur.getString(4));
-            pj.setFolder_id(cur.getLong(5));
-
-            list.add(pj);
+    public static DatabaseController getInstance(@NonNull Context context) {
+        if (instance == null) {
+            synchronized (DatabaseController.class) {
+                if (instance == null) {
+                    instance = new DatabaseController(context);
+                }
+            }
         }
-        cur.close();
-        return list;
+        return instance;
     }
 
-    public ArrayList<ProjectExtra> getExtrsForProj(Long id) {
-        SQLiteDatabase db = getWritableDatabase();
-        ArrayList<ProjectExtra> list = new ArrayList<>();
-        Cursor cur = db.rawQuery("SELECT * FROM project_extra WHERE project_id=?", id);
-        while (cur.moveToNext()) {
-            ProjectExtra pj = new ProjectExtra();
-            pj.setId(cur.getLong(0));
-            pj.setProject_id(cur.getLong(1));
-            pj.setType(cur.getLong(2));
-            pj.setContent(cur.getString(3));
-            list.add(pj);
-        }
-        cur.close();
-        return list;
 
+    public void addProject(Project project, DatabaseCallback<Long> callback) {
+        executor.execute(() -> {
+            long id = db.projectDao().insert(project);
+            if (callback != null) callback.onResult(id);
+        });
     }
 
+    public void updateProject(Project project, DatabaseCallback<Void> callback) {
+        executor.execute(() -> {
+            db.projectDao().update(project);
+            if (callback != null) callback.onResult(null);
+        });
+    }
+
+    public void deleteProject(Project project, DatabaseCallback<Void> callback) {
+        executor.execute(() -> {
+            db.projectDao().delete(project);
+            if (callback != null) callback.onResult(null);
+        });
+    }
+
+    public void getProjectById(Long id, DatabaseCallback<Project> callback) {
+        executor.execute(() -> callback.onResult(db.projectDao().getById(id)));
+    }
+
+    public void getAllProjects(DatabaseCallback<List<Project>> callback) {
+        executor.execute(() -> callback.onResult(db.projectDao().getAll()));
+    }
+
+    public void getProjectsByFolder(Long folderId, DatabaseCallback<List<Project>> callback) {
+        executor.execute(() -> callback.onResult(db.projectDao().getByFolder(folderId)));
+    }
+
+    public void getProjectWithExtras(Long projectId, DatabaseCallback<ProjectWithExtras> callback) {
+        executor.execute(() -> callback.onResult(db.projectDao().getWithExtras(projectId)));
+    }
+
+    public void getAllProjectsWithExtras(DatabaseCallback<List<ProjectWithExtras>> callback) {
+        executor.execute(() -> callback.onResult(db.projectDao().getAllWithExtras()));
+    }
+
+
+    public void addFolder(Folder folder, DatabaseCallback<Long> callback) {
+        executor.execute(() -> {
+            long id = db.folderDao().insert(folder);
+            if (callback != null) callback.onResult(id);
+        });
+    }
+
+    public void updateFolder(Folder folder, DatabaseCallback<Void> callback) {
+        executor.execute(() -> {
+            db.folderDao().update(folder);
+            if (callback != null) callback.onResult(null);
+        });
+    }
+
+    public void deleteFolder(Folder folder, DatabaseCallback<Void> callback) {
+        executor.execute(() -> {
+            db.folderDao().delete(folder);
+            if (callback != null) callback.onResult(null);
+        });
+    }
+
+    public void getAllFolders(DatabaseCallback<List<Folder>> callback) {
+        executor.execute(() -> callback.onResult(db.folderDao().getAll()));
+    }
+
+
+    public void addProjectExtra(ProjectExtra extra, DatabaseCallback<Long> callback) {
+        executor.execute(() -> {
+            long id = db.projectExtraDao().insert(extra);
+            if (callback != null) callback.onResult(id);
+        });
+    }
+
+    public void updateProjectExtra(ProjectExtra extra, DatabaseCallback<Void> callback) {
+        executor.execute(() -> {
+            db.projectExtraDao().update(extra);
+            if (callback != null) callback.onResult(null);
+        });
+    }
+
+    public void deleteProjectExtra(ProjectExtra extra, DatabaseCallback<Void> callback) {
+        executor.execute(() -> {
+            db.projectExtraDao().delete(extra);
+            if (callback != null) callback.onResult(null);
+        });
+    }
+
+    public void getExtrasForProject(Long projectId, DatabaseCallback<List<ProjectExtra>> callback) {
+        executor.execute(() -> callback.onResult(db.projectExtraDao().getForProject(projectId)));
+    }
+
+    public void getExtrasForProjectAndType(Long projectId, Long typeId,
+                                           DatabaseCallback<List<ProjectExtra>> callback) {
+        executor.execute(() ->
+                callback.onResult(db.projectExtraDao().getForProjectAndType(projectId, typeId)));
+    }
+
+
+    public void addType(Type type, DatabaseCallback<Long> callback) {
+        executor.execute(() -> {
+            long id = db.typeDao().insert(type);
+            if (callback != null) callback.onResult(id);
+        });
+    }
+
+    public void updateType(Type type, DatabaseCallback<Void> callback) {
+        executor.execute(() -> {
+            db.typeDao().update(type);
+            if (callback != null) callback.onResult(null);
+        });
+    }
+
+    public void deleteType(Type type, DatabaseCallback<Void> callback) {
+        executor.execute(() -> {
+            db.typeDao().delete(type);
+            if (callback != null) callback.onResult(null);
+        });
+    }
+
+    public void getAllTypes(DatabaseCallback<List<Type>> callback) {
+        executor.execute(() -> callback.onResult(db.typeDao().getAll()));
+    }
 }
