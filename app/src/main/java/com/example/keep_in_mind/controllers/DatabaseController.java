@@ -4,8 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-
-import   com.example.keep_in_mind.models.entities.MindDatabase;
+import com.example.keep_in_mind.models.entities.MindDatabase;
 import com.example.keep_in_mind.models.entities.Folder;
 import com.example.keep_in_mind.models.entities.Project;
 import com.example.keep_in_mind.models.entities.ProjectExtra;
@@ -16,11 +15,15 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-// singleton for db controller, on background threat
-// USAGE:   DatabaseController.getInstance(this).getAllProjects(projects ->
-//       runOnUiThread(() -> updateUi(projects)));
-
+/**
+ * Entry point Activities call into for all database access. Wraps the Room
+ * DAOs and runs every call on a background thread (Room forbids DB access
+ * on the main thread), delivering the result through a DatabaseCallback.
+ *
+ * Usage from an Activity:
+ *   DatabaseController.getInstance(this).getAllProjects(projects ->
+ *       runOnUiThread(() -> updateUi(projects)));
+ */
 public class DatabaseController {
 
     private static volatile DatabaseController instance;
@@ -44,6 +47,7 @@ public class DatabaseController {
         return instance;
     }
 
+    // ---- Project ----
 
     public void addProject(Project project, DatabaseCallback<Long> callback) {
         executor.execute(() -> {
@@ -86,6 +90,7 @@ public class DatabaseController {
         executor.execute(() -> callback.onResult(db.projectDao().getAllWithExtras()));
     }
 
+    // ---- Folder ----
 
     public void addFolder(Folder folder, DatabaseCallback<Long> callback) {
         executor.execute(() -> {
@@ -112,6 +117,7 @@ public class DatabaseController {
         executor.execute(() -> callback.onResult(db.folderDao().getAll()));
     }
 
+    // ---- ProjectExtra ----
 
     public void addProjectExtra(ProjectExtra extra, DatabaseCallback<Long> callback) {
         executor.execute(() -> {
@@ -144,6 +150,7 @@ public class DatabaseController {
                 callback.onResult(db.projectExtraDao().getForProjectAndType(projectId, typeId)));
     }
 
+    // ---- Type ----
 
     public void addType(Type type, DatabaseCallback<Long> callback) {
         executor.execute(() -> {
@@ -169,4 +176,5 @@ public class DatabaseController {
     public void getAllTypes(DatabaseCallback<List<Type>> callback) {
         executor.execute(() -> callback.onResult(db.typeDao().getAll()));
     }
+
 }

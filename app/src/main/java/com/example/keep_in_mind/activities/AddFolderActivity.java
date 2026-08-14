@@ -2,25 +2,38 @@ package com.example.keep_in_mind.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.keep_in_mind.R;
+import com.example.keep_in_mind.controllers.DatabaseCallback;
+import com.example.keep_in_mind.controllers.DatabaseController;
+import com.example.keep_in_mind.models.entities.Folder;
+import com.example.keep_in_mind.models.entities.Project;
+import com.example.keep_in_mind.models.entities.Type;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class AddFolderActivity extends AppCompatActivity {
+    DatabaseController db;
 
-    private static final String DATE_FORMAT = "%04d-%02d-%02d";
     private EditText folder_name_input;
     private TextView start_text;
     private TextView end_text;
+    private ChipGroup projects_list;
 
     private String start_date;
     private String end_date;
+    private Button add_folder_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,30 +41,51 @@ public class AddFolderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_folder);
 
         folder_name_input = findViewById(R.id.folder_name_input);
-        start_text = findViewById(R.id.start_text);
-        end_text = findViewById(R.id.end_text);
+        projects_list = findViewById(R.id.projects_list);
+        add_folder_btn = findViewById(R.id.add_folder_btn);
+        db = DatabaseController.getInstance(this);
+        
 
-        start_text.setOnClickListener(v -> showDatePicker(start_text, picked -> start_date = picked));
-        end_text.setOnClickListener(v -> showDatePicker(end_text, picked -> end_date = picked));
+        add_folder_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Folder folder = new Folder();
+                folder.setName(folder_name_input.getText().toString());
+                db.addFolder(folder, new DatabaseCallback<Long>() {
+                    @Override
+                    public void onResult(Long id) {
+                        System.out.println("added new folder");
+                        runOnUiThread(AddFolderActivity.this::finish);
+                    }
+                });
+            }
+        });
+
+        loadChips();
     }
 
-    private void showDatePicker(TextView target, OnDatePicked onDatePicked) {
-        Calendar calendar = Calendar.getInstance();
-        DatePickerDialog dialog = new DatePickerDialog(
-                this,
-                (view, year, month, dayOfMonth) -> {
-                    String formatted = String.format(Locale.US, DATE_FORMAT, year, month + 1, dayOfMonth);
-                    target.setText(formatted);
-                    onDatePicked.onDatePicked(formatted);
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        );
-        dialog.show();
+    private void loadChips(){
+        DatabaseController db = DatabaseController.getInstance(this);
+        db.getAllProjects(new DatabaseCallback<List<Project>>() {
+            @Override
+            public void onResult(List<Project> list) {
+                runOnUiThread(() -> renderProjects(list));
+            }
+        });
     }
 
-    private interface OnDatePicked {
-        void onDatePicked(String date);
+    private void renderProjects(List<Project> list) {
+        projects_list.clearCheck();
+        projects_list.removeAllViews();
+
+        for (Project pj : list){
+            Chip chip = new Chip(this);
+            chip.setText(pj.getName());
+            chip.setClickable(true);
+            chip.setCheckable(true);
+            projects_list.addView(chip);
+        }
+        System.out.println("added " + list.size() + " project chips");
     }
+
 }

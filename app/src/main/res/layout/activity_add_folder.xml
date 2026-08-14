@@ -31,36 +31,45 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp" />
 
-    <TextView
-        android:id="@+id/start_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="start date"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackground"
-        style="@style/bottomText"
-        app:layout_constraintTop_toBottomOf="@id/folder_name_input"
-        app:layout_constraintStart_toStartOf="@id/base_img"
-        app:layout_constraintEnd_toEndOf="@id/base_img"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp" />
 
     <TextView
-        android:id="@+id/end_text"
-        android:layout_width="0dp"
+        android:id="@+id/choose_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="deadline date"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackground"
-        style="@style/bottomText"
-        app:layout_constraintTop_toBottomOf="@id/start_text"
-        app:layout_constraintStart_toStartOf="@id/base_img"
-        app:layout_constraintEnd_toEndOf="@id/base_img"
-        android:layout_marginTop="12dp"
         android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp" />
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:text="Choose projects to add"
+        app:layout_constraintEnd_toEndOf="@id/base_img"
+        app:layout_constraintStart_toStartOf="@id/base_img"
+
+        app:layout_constraintTop_toBottomOf="@id/folder_name_input" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/projects_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="344dp"
+        app:layout_constraintBottom_toBottomOf="@+id/base_img"
+        app:layout_constraintEnd_toEndOf="@+id/base_img"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/base_img"
+        app:layout_constraintTop_toBottomOf="@id/choose_text"
+        app:layout_constraintVertical_bias="0.337">
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/add_folder_btn"
+
+        style="@style/customButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="Add foler"
+        app:layout_constraintBottom_toBottomOf="@id/base_img"
+
+        app:layout_constraintEnd_toEndOf="@id/base_img" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,12 +8,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * A reusable "type" label for a ProjectExtra (e.g. "inspiration", "note",
- * "reference"), stored as its own table so types can be listed, renamed,
- * or added without touching ProjectExtra rows.
- * Immutable: create a new instance to change values.
- */
+
 @Entity(tableName = "type")
 public class Type implements Serializable {
 

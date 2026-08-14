@@ -8,18 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.keep_in_mind.R;
+import com.example.keep_in_mind.controllers.DatabaseCallback;
 import com.example.keep_in_mind.controllers.DatabaseController;
 import com.example.keep_in_mind.models.entities.Folder;
-import com.example.keep_in_mind.models.entities.Project;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BoardActivity extends AppCompatActivity {
@@ -31,20 +26,21 @@ public class BoardActivity extends AppCompatActivity {
     private ScrollView folders_sv;
     private ImageButton add_folder_btn;
 
-
-
+    private LinearLayout folders_container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
-        ready_amnt_text = (TextView) findViewById(R.id.ready_amnt_text);
-        hold_amnt_text = (TextView) findViewById(R.id.hold_amnt_text);
-        process_amnt_text = (TextView) findViewById(R.id.process_amnt_text);
-        finished_amnt_text = (TextView) findViewById(R.id.finished_amnt_text);
-        folders_layout = (LinearLayout) findViewById(R.id.folders_layout);
-        folders_sv = (ScrollView) findViewById(R.id.folders_sv);
-        add_folder_btn = (ImageButton) findViewById(R.id.add_folder_btn);
+
+        ready_amnt_text = findViewById(R.id.ready_amnt_text);
+        hold_amnt_text = findViewById(R.id.hold_amnt_text);
+        process_amnt_text = findViewById(R.id.process_amnt_text);
+        finished_amnt_text = findViewById(R.id.finished_amnt_text);
+        folders_container = findViewById(R.id.folders_container);
+        folders_sv = findViewById(R.id.folders_sv);
+        add_folder_btn = findViewById(R.id.add_folder_btn);
+
 
         add_folder_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,29 +49,56 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
-        loadProjects();
+        loadFolders();
     }
 
-    private void loadProjects() {
+    private void loadFolders() {
         DatabaseController db = DatabaseController.getInstance(this);
-        db.getAllFolders(folder -> runOnUiThread(() -> renderFolders(folder)));
+        db.getAllFolders(new DatabaseCallback<List<Folder>>() {
+            @Override
+            public void onResult(List<Folder> folders) {
+                runOnUiThread(() -> renderFolders(folders));
+            }
+        });
     }
 
     private void renderFolders(List<Folder> folders) {
-        folders_sv.removeAllViews();
+        folders_container.removeAllViews();
+
+        int marginPx = (int) (40 * getResources().getDisplayMetrics().density);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.leftMargin = marginPx;
 
         if (folders.isEmpty()) {
             TextView empty = new TextView(this);
-            empty.setText("no projects yet");
-            folders_sv.addView(empty);
+            empty.setText("no folders yet");
+            empty.setTextAppearance(R.style.folderItem);
+            empty.setLayoutParams(params);
+            folders_container.addView(empty);
             return;
         }
 
         for (Folder folder : folders) {
-            TextView projectText = new TextView(this);
-            projectText.setText(folder.getName());
-            folders_sv.addView(projectText);
+            TextView folderText = new TextView(this);
+            folderText.setText(folder.getName());
+            folderText.setClickable(true);
+            folderText.setLayoutParams(params);
+            folderText.setTextAppearance(R.style.folderItem);
+
+            folderText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BoardActivity.this, FolderDetailActivity.class);
+                    intent.putExtra("folder_id", folder.getId());
+                    startActivity(intent);
+                }
+            });
+
+            folders_container.addView(folderText);
+            System.out.println("added folder: " + folder.getName());
         }
     }
-
 }

@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.material)
     implementation(libs.room.common.jvm)
+    implementation(libs.room.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
@@ -55,6 +56,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("com.github.bumptech.glide:glide:5.0.5")
     implementation ("com.google.android.material:material:1.3.0")
+    annotationProcessor(libs.room.compiler)
 
 
 }

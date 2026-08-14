@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import com.example.keep_in_mind.models.entities.Project;
 import com.example.keep_in_mind.models.entities.ProjectWithExtras;
+import com.example.keep_in_mind.models.entities.Type;
 
 import java.util.List;
 
@@ -40,4 +41,7 @@ public interface ProjectDao {
     @Transaction
     @Query("SELECT * FROM project")
     List<ProjectWithExtras> getAllWithExtras();
+
+    @Query("SELECT * FROM type")
+    List<Type> getAllExtraTypes();
 }

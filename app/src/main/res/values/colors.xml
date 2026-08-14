@@ -12,4 +12,7 @@
     <color name="status_in_progress">@color/white</color>
     <color name="status_on_hold">@color/orange</color>
     <color name="status_finished">@color/green</color>
+
+    <color name="button">@color/orange</color>
+    <color name="button_text">@color/white</color>
 </resources>
