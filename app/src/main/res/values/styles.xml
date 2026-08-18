@@ -29,6 +29,11 @@
         <item name="android:fontFamily">"@font/oswald"</item>
         <item name="android:textColor">"@color/black"</item>
     </style>
+    <style name="mainTextLight" >
+        <item name="android:textSize">40dp</item>
+        <item name="android:fontFamily">"@font/oswald"</item>
+        <item name="android:textColor">"@color/white"</item>
+    </style>
     <style name="bottomText" >
         <item name="android:textSize">20dp</item>
         <item name="android:fontFamily">"@font/robotoslab"</item>

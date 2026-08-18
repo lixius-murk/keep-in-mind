@@ -5,4 +5,6 @@ package com.example.keep_in_mind.controllers;
 
 public interface DatabaseCallback<T> {
     void onResult(T result);
+
+    void onError(Exception e);
 }

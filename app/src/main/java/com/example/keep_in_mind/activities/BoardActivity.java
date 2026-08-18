@@ -59,6 +59,11 @@ public class BoardActivity extends AppCompatActivity {
             public void onResult(List<Folder> folders) {
                 runOnUiThread(() -> renderFolders(folders));
             }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
         });
     }
 
