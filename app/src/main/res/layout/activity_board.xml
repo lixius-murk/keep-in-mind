@@ -13,7 +13,9 @@
         android:id="@+id/board"
         android:layout_width="match_parent"
         android:layout_height="632dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <!--for having 2 text spaces i go without real btn-->
@@ -167,6 +169,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+
             android:padding="8dp">
 
 

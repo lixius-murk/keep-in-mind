@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "keep-in-mind"
 include(":app")
+ 

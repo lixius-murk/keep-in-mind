@@ -4,7 +4,11 @@ plugins {
 
 android {
     namespace = "com.example.keep_in_mind"
-    compileSdk = 36
+    compileSdk {
+        version = release(36) {
+            minorApiLevel = 1
+        }
+    }
 
     defaultConfig {
         applicationId = "com.example.keep_in_mind"
@@ -18,14 +22,11 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false  // Changed from optimization block
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            optimization {
+                enable = false
+            }
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -33,25 +34,30 @@ android {
 }
 
 dependencies {
-    implementation("androidx.activity:activity:1.9.0")
-    implementation("androidx.activity:activity-ktx:1.9.0")
-
+    // Core AndroidX
     implementation(libs.activity.ktx)
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
     implementation(libs.material)
-    implementation(libs.room.common.jvm)
-    implementation(libs.room.runtime)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.ext.junit)
 
+    // Room
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+
+    // Retrofit & Networking
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    implementation("androidx.recyclerview:recyclerview-selection:1.2.0")
+
+    // RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.4.0")
+
+    // Glide
     implementation("com.github.bumptech.glide:glide:5.0.5")
-    implementation("com.google.android.material:material:1.3.0")
-    annotationProcessor(libs.room.compiler)
+    annotationProcessor("com.github.bumptech.glide:compiler:5.0.5")
+
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

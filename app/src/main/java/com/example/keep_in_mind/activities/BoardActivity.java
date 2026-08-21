@@ -60,11 +60,7 @@ public class BoardActivity extends AppCompatActivity {
                 runOnUiThread(() -> renderFolders(folders));
             }
 
-            @Override
-            public void onError(Exception e) {
-                System.out.println("error loading folders: ");
-
-            }
+            
         });
     }
 

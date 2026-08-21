@@ -1,5 +1,4 @@
 package com.example.keep_in_mind.activities;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
