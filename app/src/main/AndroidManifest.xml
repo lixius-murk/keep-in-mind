@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.keep_in_mind">
 
     <application
         android:allowBackup="true"
@@ -29,6 +30,13 @@
             android:name=".activities.AddFolderActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.FolderDetailActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+
+
     </application>
 
 </manifest>

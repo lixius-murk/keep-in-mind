@@ -62,6 +62,7 @@ public class BoardActivity extends AppCompatActivity {
 
             @Override
             public void onError(Exception e) {
+                System.out.println("error loading folders: ");
 
             }
         });
@@ -70,40 +71,6 @@ public class BoardActivity extends AppCompatActivity {
     private void renderFolders(List<Folder> folders) {
         folders_container.removeAllViews();
 
-        int marginPx = (int) (40 * getResources().getDisplayMetrics().density);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.leftMargin = marginPx;
 
-        if (folders.isEmpty()) {
-            TextView empty = new TextView(this);
-            empty.setText("no folders yet");
-            empty.setTextAppearance(R.style.folderItem);
-            empty.setLayoutParams(params);
-            folders_container.addView(empty);
-            return;
-        }
-
-        for (Folder folder : folders) {
-            TextView folderText = new TextView(this);
-            folderText.setText(folder.getName());
-            folderText.setClickable(true);
-            folderText.setLayoutParams(params);
-            folderText.setTextAppearance(R.style.folderItem);
-
-            folderText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(BoardActivity.this, FolderDetailActivity.class);
-                    intent.putExtra("folder_id", folder.getId());
-                    startActivity(intent);
-                }
-            });
-
-            folders_container.addView(folderText);
-            System.out.println("added folder: " + folder.getName());
-        }
     }
 }

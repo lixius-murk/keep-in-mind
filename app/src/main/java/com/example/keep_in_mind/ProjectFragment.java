@@ -14,7 +14,6 @@ public class ProjectFragment extends Fragment {
     private String projectName;
 
     public ProjectFragment() {
-        // Required empty public constructor
     }
 
     public static ProjectFragment newInstance(String name) {
@@ -23,6 +22,9 @@ public class ProjectFragment extends Fragment {
         args.putString(ARG_PROJECT_NAME, name);
         fragment.setArguments(args);
         return fragment;
+    }
+    public String getName(){
+        return projectName;
     }
 
     @Override
@@ -37,12 +39,10 @@ public class ProjectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_project, container, false);
-
         TextView projectNameView = view.findViewById(R.id.project_name);
         if (projectName != null) {
             projectNameView.setText(projectName);
         }
-
         return view;
     }
 }

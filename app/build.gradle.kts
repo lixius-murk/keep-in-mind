@@ -4,11 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.keep_in_mind"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.keep_in_mind"
@@ -22,17 +18,19 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false  // Changed from optimization block
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-
 
 dependencies {
     implementation("androidx.activity:activity:1.9.0")
@@ -48,15 +46,12 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
 
-
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("androidx.recyclerview:recyclerview-selection:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("com.github.bumptech.glide:glide:5.0.5")
-    implementation ("com.google.android.material:material:1.3.0")
+    implementation("com.google.android.material:material:1.3.0")
     annotationProcessor(libs.room.compiler)
-
-
 }
