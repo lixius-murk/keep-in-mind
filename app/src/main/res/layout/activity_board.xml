@@ -150,6 +150,17 @@
         app:layout_constraintBottom_toBottomOf="@id/board"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@null"
+        android:contentDescription="add new folder button"
+        android:src="@drawable/add_ic"
+        >
+    </ImageButton>
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/add_proj_btn"
+        app:layout_constraintBottom_toBottomOf="@id/board"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@null"
         android:contentDescription="add new project button"
         android:src="@drawable/add_ic"
         >

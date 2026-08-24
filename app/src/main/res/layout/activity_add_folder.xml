@@ -47,15 +47,13 @@
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/projects_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="344dp"
-        app:layout_constraintBottom_toBottomOf="@+id/base_img"
-        app:layout_constraintEnd_toEndOf="@+id/base_img"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@id/base_img"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_folder_btn"
+        app:layout_constraintLeft_toLeftOf="@id/base_img"
         app:layout_constraintTop_toBottomOf="@id/choose_text"
-        app:layout_constraintVertical_bias="0.337">
+        app:layout_constraintVertical_bias="0.2">
+
     </com.google.android.material.chip.ChipGroup>
 
     <Button

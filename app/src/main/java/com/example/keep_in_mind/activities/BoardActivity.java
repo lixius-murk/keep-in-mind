@@ -25,6 +25,8 @@ public class BoardActivity extends AppCompatActivity {
     private LinearLayout folders_layout;
     private ScrollView folders_sv;
     private ImageButton add_folder_btn;
+    private ImageButton add_proj_btn;
+
 
     private LinearLayout folders_container;
 
@@ -33,6 +35,7 @@ public class BoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
+        add_proj_btn = findViewById(R.id.add_proj_btn);
         ready_amnt_text = findViewById(R.id.ready_amnt_text);
         hold_amnt_text = findViewById(R.id.hold_amnt_text);
         process_amnt_text = findViewById(R.id.process_amnt_text);
@@ -46,6 +49,13 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(BoardActivity.this, AddFolderActivity.class));
+            }
+        });
+        add_proj_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BoardActivity.this, AddProjectActivity.class));
+
             }
         });
 

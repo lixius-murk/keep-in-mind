@@ -1,4 +1,4 @@
-package com.example.keep_in_mind;
+package com.example.keep_in_mind.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.keep_in_mind.R;
 
 public class ProjectFragment extends Fragment {
 
