@@ -52,4 +52,21 @@
         <item name="backgroundTint">@color/orange</item>
     </style>
 
+
+    <style name="TaskLayoutActive" parent="Widget.MaterialComponents.ActionBar.Solid">
+        <item name="layout_constraintHorizontal_bias">0.5</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="background">@drawable/rounded_shape</item>
+        <item name="backgroundTint">@color/status_ready</item>
+    </style>
+
+    <style name="TaskLayoutDone" parent="Widget.MaterialComponents.ActionBar.Solid">
+        <item name="layout_constraintHorizontal_bias">0.5</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="background">@drawable/rounded_shape</item>
+        <item name="backgroundTint">@color/status_finished</item>
+    </style>
+
 </resources>

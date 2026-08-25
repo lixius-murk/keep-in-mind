@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ProjectDetailsActivity"
+    tools:context=".activities.ProjectDetailActivity"
     android:background="@color/black">
 
   <ImageView
@@ -21,13 +21,39 @@
   <TextView
       android:id="@+id/project_name"
 
-      android:text="name_place"
+      android:text="name_project"
       style="@style/mainTextLight"
       android:layout_width="wrap_content"
       android:layout_height="0dp"
       app:layout_constraintRight_toLeftOf="@id/project_cover"
       app:layout_constraintTop_toTopOf="parent"
       android:layout_marginTop="20dp"
+      android:layout_marginRight="10dp"
+
+    />
+  <TextView
+      android:id="@+id/project_start_date"
+
+      android:text="start_date"
+      style="@style/bottomText"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      app:layout_constraintRight_toLeftOf="@id/project_cover"
+      app:layout_constraintTop_toBottomOf="@id/project_name"
+      android:layout_marginTop="10dp"
+      android:layout_marginRight="10dp"
+
+    />
+  <TextView
+      android:id="@+id/project_end_date"
+
+      android:text="end_date"
+      style="@style/bottomText"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      app:layout_constraintRight_toLeftOf="@id/project_cover"
+      app:layout_constraintTop_toBottomOf="@id/project_start_date"
+      android:layout_marginTop="10dp"
       android:layout_marginRight="10dp"
 
     />
@@ -43,22 +69,21 @@
       android:layout_marginLeft="20dp"
       />
 
-  <ScrollView
-      android:id="@+id/extras_sv"
+
+  <com.google.android.material.tabs.TabLayout
+      android:id="@+id/extras_tabs"
       android:layout_width="match_parent"
-      android:layout_height="100dp"
-      app:layout_constraintTop_toBottomOf="@id/project_cover"
-      app:layout_constraintLeft_toLeftOf="parent"
-      android:layout_marginTop="10dp"
+      android:layout_height="wrap_content"
 
-      android:orientation="horizontal"
-      >
+      android:layout_marginTop="20dp"
+      app:layout_constraintTop_toBottomOf="@id/project_end_date" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
-  </ScrollView>
+  <androidx.viewpager2.widget.ViewPager2
+      android:id="@+id/extras_pager"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintTop_toBottomOf="@id/extras_tabs"
+      app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,22 +53,17 @@ public abstract class MindDatabase extends RoomDatabase {
         return instance;
     }
 
-    /**
-     * Fires exactly once: the first time the database file is created
-     * (first app launch, or after app data/db is cleared). Runs the
-     * inserts synchronously via raw SQL on the SAME call that opens the
-     * database — no separate executor thread — so any query made right
-     * after getInstance() is guaranteed to see this seed data. Dispatching
-     * this to another thread (as an earlier version did) created a race
-     * where getAllTypes() could run before the seed rows were committed.
-     */
+
+    //fires only when app launched for the first time
     private static final RoomDatabase.Callback seedCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            db.execSQL("INSERT INTO type (name) VALUES ('inspiration')");
+            db.execSQL("INSERT INTO type (name) VALUES ('moodboard')");
+            db.execSQL("INSERT INTO type (name) VALUES ('ref')");
             db.execSQL("INSERT INTO type (name) VALUES ('note')");
-            db.execSQL("INSERT INTO type (name) VALUES ('reference')");
+            db.execSQL("INSERT INTO type (name) VALUES ('to-do')");
+            db.execSQL("INSERT INTO type (name) VALUES ('to-buy')");
             db.execSQL("INSERT INTO type (name) VALUES ('link')");
         }
     };

@@ -47,8 +47,6 @@ public class DatabaseController {
         return instance;
     }
 
-    // ---- Project ----
-
     public void addProject(Project project, DatabaseCallback<Long> callback) {
         executor.execute(() -> {
             long id = db.projectDao().insert(project);
@@ -89,8 +87,6 @@ public class DatabaseController {
     public void getAllProjectsWithExtras(DatabaseCallback<List<ProjectWithExtras>> callback) {
         executor.execute(() -> callback.onResult(db.projectDao().getAllWithExtras()));
     }
-
-    // ---- Folder ----
 
     public void addFolder(Folder folder, DatabaseCallback<Long> callback) {
         executor.execute(() -> {
@@ -149,8 +145,6 @@ public class DatabaseController {
         executor.execute(() ->
                 callback.onResult(db.projectExtraDao().getForProjectAndType(projectId, typeId)));
     }
-
-    // ---- Type ----
 
     public void addType(Type type, DatabaseCallback<Long> callback) {
         executor.execute(() -> {
