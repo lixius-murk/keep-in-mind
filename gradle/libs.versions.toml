@@ -10,7 +10,7 @@ constraintlayout = "2.1.4"
 room = "2.6.1"
 
 [libraries]
-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
+activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }

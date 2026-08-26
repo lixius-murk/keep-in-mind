@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">keep-in-mind</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tab_size">80dp</string>"
-    <string name="img_size">100dp</string>"
 </resources>

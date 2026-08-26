@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="10dip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/new_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/tab_size"
+        style="@style/customButton"
+        android:text="Add new project"
+        android:contentDescription="Button to add new project" />
+    <Button
+        android:id="@+id/old_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/tab_size"
+        style="@style/customButton"
+        android:text="Add existing project"
+        android:contentDescription="Button to add existing project" />
+
+
+</LinearLayout>

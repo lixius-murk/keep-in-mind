@@ -1,5 +1,6 @@
 package com.example.keep_in_mind.models;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -27,4 +28,7 @@ public interface FolderDao {
 
     @Query("SELECT * FROM folder")
     List<Folder> getAll();
+
+    @Query("SELECT * FROM folder")
+    LiveData<List<Folder>> getAllLive();
 }

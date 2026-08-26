@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -46,23 +47,26 @@ public class AddProjectActivity extends AppCompatActivity {
     private TextView start_text;
     private TextView end_text;
 
-    private String name;
     private String date_st;
     private String date_end;
-    private String state;
-    private Long id;
-    private String desc;
 
+    private EditText projectNameInput;
+    private Long folderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
+        
+        folderId = getIntent().getLongExtra("folder_id", -1);
+        
+        projectNameInput = findViewById(R.id.folder_name_input);
         extra_chips = findViewById(R.id.extra_chips);
         add_project_btn = findViewById(R.id.add_project_btn);
         start_text = findViewById(R.id.start_text);
         end_text = findViewById(R.id.end_text);
         db = DatabaseController.getInstance(this);
+
         start_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,17 +84,20 @@ public class AddProjectActivity extends AppCompatActivity {
         add_project_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String inputName = projectNameInput.getText().toString();
                 Project pj = new Project();
-                pj.setName(name);
-                pj.setDescription(desc);
+                pj.setName(inputName);
+                pj.setDescription(" ");
                 pj.setStart_date(date_st);
-                pj.setStart_date(date_end);
-                pj.setFolder_id(id);
-                pj.setState(state);
+                pj.setEnd_date(date_end);
+                if (folderId != -1) {
+                    pj.setFolder_id(folderId);
+                }
+                pj.setState("ready");
                 db.addProject(pj, new DatabaseCallback<Long>() {
                     @Override
                     public void onResult(Long id) {
-                        System.out.println("added new project");
+                        System.out.println("added new project: " + inputName);
                         runOnUiThread(AddProjectActivity.this::finish);
                     }});
             }

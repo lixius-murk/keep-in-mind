@@ -78,8 +78,15 @@ public class AddFolderActivity extends AppCompatActivity {
         projects_list.removeAllViews();
 
         for (Project pj : list){
+            String name = pj.getName();
+            if (name == null || name.isEmpty()) {
+                name = pj.getDescription();
+            }
+            if (name == null || name.isEmpty()) {
+                name = "Unnamed Project (" + pj.getId() + ")";
+            }
             Chip chip = new Chip(this);
-            chip.setText(pj.getName());
+            chip.setText(name);
             chip.setClickable(true);
             chip.setCheckable(true);
             projects_list.addView(chip);

@@ -3,6 +3,7 @@ package com.example.keep_in_mind.controllers;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import com.example.keep_in_mind.models.entities.MindDatabase;
 import com.example.keep_in_mind.models.entities.Folder;
@@ -76,8 +77,16 @@ public class DatabaseController {
         executor.execute(() -> callback.onResult(db.projectDao().getAll()));
     }
 
+    public LiveData<List<Project>> getAllProjectsLive() {
+        return db.projectDao().getAllLive();
+    }
+
     public void getProjectsByFolder(Long folderId, DatabaseCallback<List<Project>> callback) {
         executor.execute(() -> callback.onResult(db.projectDao().getByFolder(folderId)));
+    }
+
+    public LiveData<List<Project>> getProjectsByFolderLive(Long folderId) {
+        return db.projectDao().getByFolderLive(folderId);
     }
 
     public void getProjectWithExtras(Long projectId, DatabaseCallback<ProjectWithExtras> callback) {
@@ -111,6 +120,10 @@ public class DatabaseController {
 
     public void getAllFolders(DatabaseCallback<List<Folder>> callback) {
         executor.execute(() -> callback.onResult(db.folderDao().getAll()));
+    }
+
+    public LiveData<List<Folder>> getAllFoldersLive() {
+        return db.folderDao().getAllLive();
     }
 
     // ---- ProjectExtra ----

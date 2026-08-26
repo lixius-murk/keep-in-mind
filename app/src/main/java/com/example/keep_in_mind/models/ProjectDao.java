@@ -1,5 +1,6 @@
 package com.example.keep_in_mind.models;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -31,8 +32,14 @@ public interface ProjectDao {
     @Query("SELECT * FROM project")
     List<Project> getAll();
 
+    @Query("SELECT * FROM project")
+    LiveData<List<Project>> getAllLive();
+
     @Query("SELECT * FROM project WHERE folder_id = :folderId")
     List<Project> getByFolder(Long folderId);
+
+    @Query("SELECT * FROM project WHERE folder_id = :folderId")
+    LiveData<List<Project>> getByFolderLive(Long folderId);
 
     @Transaction
     @Query("SELECT * FROM project WHERE id = :id")

@@ -11,9 +11,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.keep_in_mind.R;
-import com.example.keep_in_mind.controllers.DatabaseCallback;
 import com.example.keep_in_mind.controllers.DatabaseController;
 import com.example.keep_in_mind.models.entities.Folder;
+import com.example.keep_in_mind.models.entities.Project;
 
 import java.util.List;
 
@@ -59,24 +59,53 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
-        loadFolders();
+        observeData();
     }
 
-    private void loadFolders() {
+    private void observeData() {
         DatabaseController db = DatabaseController.getInstance(this);
-        db.getAllFolders(new DatabaseCallback<List<Folder>>() {
-            @Override
-            public void onResult(List<Folder> folders) {
-                runOnUiThread(() -> renderFolders(folders));
-            }
-
-            
+        
+        db.getAllFoldersLive().observe(this, folders -> {
+            renderFolders(folders);
         });
+
+        db.getAllProjectsLive().observe(this, projects -> {
+            int ready = 0, hold = 0, process = 0, finished = 0;
+            for (Project p : projects) {
+                String state = p.getState() != null ? p.getState().toLowerCase() : "";
+                switch (state) {
+                    case "ready": ready++; break;
+                    case "on hold": hold++; break;
+                    case "in progress": process++; break;
+                    case "finished": finished++; break;
+                }
+            }
+            updateStatsUi(ready, hold, process, finished);
+        });
+    }
+
+    private void updateStatsUi(int ready, int hold, int process, int finished) {
+        ready_amnt_text.setText(ready + (ready == 1 ? " task" : " tasks"));
+        hold_amnt_text.setText(hold + (hold == 1 ? " task" : " tasks"));
+        process_amnt_text.setText(process + (process == 1 ? " task" : " tasks"));
+        finished_amnt_text.setText(finished + (finished == 1 ? " task" : " tasks"));
     }
 
     private void renderFolders(List<Folder> folders) {
         folders_container.removeAllViews();
+        for (Folder fd : folders) {
+            View itemView = getLayoutInflater().inflate(R.layout.item_folder, folders_container, false);
+            TextView tv = itemView.findViewById(R.id.folder_name_item);
+            tv.setText(fd.getName());
 
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(BoardActivity.this, FolderDetailActivity.class);
+                intent.putExtra("folder_id", fd.getId());
+                intent.putExtra("folder_name", fd.getName());
+                startActivity(intent);
+            });
 
+            folders_container.addView(itemView);
+        }
     }
 }

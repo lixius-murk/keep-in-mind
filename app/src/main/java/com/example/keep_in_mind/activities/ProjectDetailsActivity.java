@@ -16,6 +16,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.keep_in_mind.R;
 import com.example.keep_in_mind.controllers.DatabaseCallback;
 import com.example.keep_in_mind.controllers.DatabaseController;
+import com.example.keep_in_mind.fragments.BuyTabFragment;
+import com.example.keep_in_mind.fragments.DoTabFragment;
 import com.example.keep_in_mind.fragments.ImageTabFragment;
 import com.example.keep_in_mind.fragments.LinkTabFragment;
 import com.example.keep_in_mind.fragments.NoteTabFragment;
@@ -47,8 +49,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     private ViewPager2 extras_pager;
     private DatabaseController db;
     private Long projectId;
-    private Long pictureTypeId;
-    private ProjectExtra pictureExtra;
+
 
     private final List<Fragment> tabFragments = new ArrayList<>();
     private final List<String> tabTitles = new ArrayList<>();
@@ -108,7 +109,6 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         project_start_date.setText(data.getProject().getStartDate());
         project_end_date.setText(data.getProject().getEnd_date());
 
-        pictureExtra = null;
         Map<String, ArrayList<String>> contentsByType = new LinkedHashMap<>();
         tabFragments.clear();
         tabTitles.clear();
@@ -130,8 +130,12 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                     tabTitles.add("link");
                     break;
                 case "to-do":
+                    tabFragments.add(DoTabFragment.newInstance(extra.getContent()));
+                    tabTitles.add("to-do");
                     break;
                 case "to-buy":
+                    tabFragments.add(BuyTabFragment.newInstance(extra.getContent()));
+                    tabTitles.add("to-buy");
                     break;
                 case "ref":
                     tabFragments.add(ImageTabFragment.newInstance(extra.getContent()));
@@ -162,9 +166,5 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         ).attach();
     }
 
-
-    private void setExtra(Long typeId, String content) {
-
-    }
 
 }
