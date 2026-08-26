@@ -7,9 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".activities.FolderDetailActivity">
+    tools:context=".activities.FolderDetailActivity"
+    android:backgroundTint="@color/white">
 
-    <TextView
+<TextView
         android:id="@+id/folder_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,12 +25,12 @@
         android:id="@+id/close_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/close_ic"
+        android:src="@drawable/close_black_ic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@null"
         android:clickable="true"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:contentDescription="Close button" />
 
@@ -38,14 +39,19 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+
         app:layout_constraintTop_toBottomOf="@+id/folder_name"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <ImageButton
         android:id="@+id/add_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/add_ic"
+        android:src="@drawable/add_black_ic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@null"
