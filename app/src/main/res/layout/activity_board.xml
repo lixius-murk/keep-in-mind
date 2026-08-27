@@ -15,7 +15,9 @@
         android:layout_height="632dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        tools:layout_editor_absoluteX="0dp">
 
 
         <!--for having 2 text spaces i go without real btn-->
@@ -25,7 +27,7 @@
             android:layout_width="200dp"
             android:layout_height="100dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/rounded_shape"
             android:backgroundTint="@color/status_ready"
             android:clickable="true"
@@ -49,6 +51,7 @@
                 android:textAppearance="@style/bottomText" />
 
         </FrameLayout>
+
         <FrameLayout
             android:layout_width="200dp"
             android:layout_height="100dp"
@@ -79,6 +82,7 @@
                 android:textAppearance="@style/bottomText" />
 
         </FrameLayout>
+
         <FrameLayout
             android:layout_width="200dp"
             android:layout_height="100dp"
@@ -109,6 +113,7 @@
                 android:textAppearance="@style/bottomText" />
 
         </FrameLayout>
+
         <FrameLayout
             android:layout_width="200dp"
             android:layout_height="100dp"
@@ -141,7 +146,6 @@
 
 
     </LinearLayout>
-
 
     <ImageButton
         android:layout_width="80dp"
@@ -180,7 +184,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
             android:padding="8dp">
 
 

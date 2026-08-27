@@ -93,6 +93,10 @@ public class DatabaseController {
         executor.execute(() -> callback.onResult(db.projectDao().getWithExtras(projectId)));
     }
 
+    public LiveData<ProjectWithExtras> getProjectWithExtrasLive(Long projectId) {
+        return db.projectDao().getWithExtrasLive(projectId);
+    }
+
     public void getAllProjectsWithExtras(DatabaseCallback<List<ProjectWithExtras>> callback) {
         executor.execute(() -> callback.onResult(db.projectDao().getAllWithExtras()));
     }

@@ -43,14 +43,10 @@ public class ProjectExtra implements Serializable {
     private  String content;
 
     public ProjectExtra() {
-        this(null, null, null, null);
     }
 
 
     public ProjectExtra(Long id, Long project_id, Long type_id, String content) {
-        if (project_id == null) {
-            throw new IllegalArgumentException("project_id must not be null");
-        }
         this.id = id;
         this.project_id = project_id;
         this.type_id = type_id;

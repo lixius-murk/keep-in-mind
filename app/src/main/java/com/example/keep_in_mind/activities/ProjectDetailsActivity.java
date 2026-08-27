@@ -2,6 +2,7 @@ package com.example.keep_in_mind.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -49,8 +50,11 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     private ViewPager2 extras_pager;
     private DatabaseController db;
     private Long projectId;
+    private FragmentStateAdapter adapter;
+    private TabLayoutMediator mediator;
 
 
+    private final List<ProjectExtra> currentExtras = new ArrayList<>();
     private final List<Fragment> tabFragments = new ArrayList<>();
     private final List<String> tabTitles = new ArrayList<>();
 
@@ -61,6 +65,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_project_details);
 
         projectId = getIntent().getLongExtra("project_id", -1);
+        Log.d("ProjectDetails", "Opening project ID: " + projectId);
 
         project_name = findViewById(R.id.project_name);
         project_start_date = findViewById(R.id.project_start_date);
@@ -72,50 +77,84 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         db = DatabaseController.getInstance(this);
         close_btn.setOnClickListener(v -> finish());
 
+        setupViewPager();
+
         if (projectId != -1) {
-            loadProject();
+            observeProject();
         }
+    }
+
+    private void observeProject() {
+        db.getProjectWithExtrasLive(projectId).observe(this, result -> {
+            if (result == null) return;
+            db.getAllTypes(new DatabaseCallback<List<Type>>() {
+                @Override
+                public void onResult(List<Type> types) {
+                    Map<Long, String> typeNames = new HashMap<>();
+                    for (Type type : types) {
+                        typeNames.put(type.getId(), type.getName());
+                    }
+                    runOnUiThread(() -> renderProject(result, typeNames));
+                }
+            });
+        });
+    }
+
+    private void setupViewPager() {
+        adapter = new FragmentStateAdapter(this) {
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                return tabFragments.get(position);
+            }
+
+            @Override
+            public int getItemCount() {
+                return tabFragments.size();
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return currentExtras.get(position).getId();
+            }
+
+            @Override
+            public boolean containsItem(long itemId) {
+                for (ProjectExtra extra : currentExtras) {
+                    if (extra.getId() != null && extra.getId() == itemId) return true;
+                }
+                return false;
+            }
+        };
+        extras_pager.setAdapter(adapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (projectId != -1) {
-            loadProject();
-        }
-    }
-
-    private void loadProject() {
-        db.getProjectWithExtras(projectId, new DatabaseCallback<ProjectWithExtras>() {
-            @Override
-            public void onResult(ProjectWithExtras result) {
-                if (result == null) return;
-                db.getAllTypes(new DatabaseCallback<List<Type>>() {
-                    @Override
-                    public void onResult(List<Type> types) {
-                        Map<Long, String> typeNames = new HashMap<>();
-                        for (Type type : types) {
-                            typeNames.put(type.getId(), type.getName());
-                        }
-                        runOnUiThread(() -> renderProject(result, typeNames));
-                    }
-                });
-            }
-        });
     }
 
     private void renderProject(ProjectWithExtras data, Map<Long, String> typeNames) {
-        project_name.setText(data.getProject().getDescription());
-        project_start_date.setText(data.getProject().getStartDate());
-        project_end_date.setText(data.getProject().getEnd_date());
+        if (data.getProject() != null) {
+            project_name.setText(data.getProject().getName());
+            project_start_date.setText(data.getProject().getStartDate());
+            project_end_date.setText(data.getProject().getEndDate());
+        }
 
-        Map<String, ArrayList<String>> contentsByType = new LinkedHashMap<>();
+        Log.d("ProjectDetails", "Rendering project extras count: " + data.getExtras().size());
+
+        currentExtras.clear();
         tabFragments.clear();
         tabTitles.clear();
         for (ProjectExtra extra : data.getExtras()) {
             String type = typeNames.get(extra.getTypeId());
-            if (type == null) continue;
+            if (type == null) {
+                Log.w("ProjectDetails", "Unknown type ID: " + extra.getTypeId());
+                continue;
+            }
             
+            Log.d("ProjectDetails", "Adding tab for type: " + type);
+            currentExtras.add(extra);
             switch(type){
                 case "note":
                     tabFragments.add(NoteTabFragment.newInstance(extra.getContent()));
@@ -142,28 +181,21 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                     tabTitles.add("ref");
                     break;
                 default:
-                    System.out.println("unknown type: " + type);
+                    Log.w("ProjectDetails", "No fragment for type: " + type);
+                    currentExtras.remove(currentExtras.size() - 1);
                     break;
             }
         }
 
+        adapter.notifyDataSetChanged();
 
-        extras_pager.setAdapter(new FragmentStateAdapter(this) {
-            @NonNull
-            @Override
-            public Fragment createFragment(int position) {
-                return tabFragments.get(position);
-            }
-
-            @Override
-            public int getItemCount() {
-                return tabFragments.size();
-            }
-        });
-
-        new TabLayoutMediator(extras_tabs, extras_pager,
+        if (mediator != null) {
+            mediator.detach();
+        }
+        mediator = new TabLayoutMediator(extras_tabs, extras_pager,
                 (tab, position) -> tab.setText(tabTitles.get(position))
-        ).attach();
+        );
+        mediator.attach();
     }
 
 

@@ -65,13 +65,23 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp" />
 
+    <Spinner
+        android:id="@+id/spinner"
+        app:layout_constraintTop_toBottomOf="@id/end_text"
+        app:layout_constraintLeft_toLeftOf="@id/base_img"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/extra_chips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="343dp"
-        app:layout_constraintTop_toBottomOf="@id/end_text"
+        app:layout_constraintTop_toBottomOf="@id/spinner"
         app:layout_constraintStart_toStartOf="@id/base_img"
         android:layout_marginTop="12dp"
         android:layout_marginStart="24dp"

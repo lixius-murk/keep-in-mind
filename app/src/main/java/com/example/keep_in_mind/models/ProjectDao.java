@@ -46,6 +46,10 @@ public interface ProjectDao {
     ProjectWithExtras getWithExtras(Long id);
 
     @Transaction
+    @Query("SELECT * FROM project WHERE id = :id")
+    LiveData<ProjectWithExtras> getWithExtrasLive(Long id);
+
+    @Transaction
     @Query("SELECT * FROM project")
     List<ProjectWithExtras> getAllWithExtras();
 

@@ -28,6 +28,9 @@ public class BoardActivity extends AppCompatActivity {
     private ImageButton add_proj_btn;
 
 
+    public static final String[] states = {"ready", "on hold", "in progress", "finished"};
+
+
     private LinearLayout folders_container;
 
     @Override
@@ -73,12 +76,12 @@ public class BoardActivity extends AppCompatActivity {
             int ready = 0, hold = 0, process = 0, finished = 0;
             for (Project p : projects) {
                 String state = p.getState() != null ? p.getState().toLowerCase() : "";
-                switch (state) {
-                    case "ready": ready++; break;
-                    case "on hold": hold++; break;
-                    case "in progress": process++; break;
-                    case "finished": finished++; break;
-                }
+                //if-else bc Java switch statements require constant expressions for case labels
+                if (states[0].equals(state)) ready++;
+                else if (states[1].equals(state)) hold++;
+                else if (states[2].equals(state)) process++;
+                else if (states[3].equals(state)) finished++;
+                else System.out.println("no state for project chosen!!");
             }
             updateStatsUi(ready, hold, process, finished);
         });
